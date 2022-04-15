@@ -16,8 +16,18 @@ class GameResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'boardgame' => $this->boardgame,
-            'players' => $this->users('avatar_path'),
+            'boardgame' => new BoardGameResource($this->boardgame),
+            'players' => $this->players->sortByDesc('pivot.winner')->sortByDesc('pivot.points')->map(function ($player) {
+                return [
+                    'id' => $player->id,
+                    'nickname' => $player->nickname,
+                    'avatarUrl' => config('app.url') . $player->avatar_path,
+                    'winner' => $player->pivot->winner,
+                    'points' => $player->pivot->points,
+                ];
+            })->toArray(),
+            'photoUrl' => gamePhotoUrl($this),
+            'date_played' => $this->date_played->format('d-m-Y'),
         ];
     }
 }

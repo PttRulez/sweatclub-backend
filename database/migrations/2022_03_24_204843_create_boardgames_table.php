@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('boardgames', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('has_points')->default(false);
             $table->string('image_path');
             $table->timestamps();
         });

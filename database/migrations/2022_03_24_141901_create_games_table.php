@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->integer('boardgame_id');
+            $table->string('photo_path')->nullable();
+            $table->date('date_played');
             $table->timestamps();
         });
     }

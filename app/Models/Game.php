@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,11 +10,12 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['boardgame_id'];
+    protected $fillable = ['boardgame_id', 'photo_path', 'date_played'];
+    protected $dates = ['date_played'];
 
-    public function users()
+    public function players()
     {
-        return $this->belongsToMany(User::class)->withPivot('winner');
+        return $this->belongsToMany(User::class)->withPivot('winner', 'points');
     }
 
     public function boardgame()

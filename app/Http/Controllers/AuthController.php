@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use App\Services\FileService;
 
 class AuthController extends Controller
 {
@@ -23,7 +21,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Неправильные почта / пароль'
+                'message' => 'Неправильные ник / пароль'
             ], 401);
         } else {
             $user->tokens()->delete();
@@ -35,8 +33,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'user' => $user,
-                'auth_token' => [
+                'user' => new UserResource($user),
+                'authToken' => [
                     'token' => $token->plainTextToken,
                     'abilities' => $token->accessToken->abilities
                 ],
@@ -63,26 +61,17 @@ class AuthController extends Controller
             'avatar_path' => 'nullable'
         ]);
 
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatar->move('img/user_avatars/', $avatar->getClientOriginalName());
-            $avatar_path = 'img/user_avatars/' . $avatar->getClientOriginalName();
-        } else {
-            $avatar_path = null;
-        }
-
         $user = User::create([
             'nickname' => $request->nickname,
             'password' => Hash::make($request->password),
-            'avatar_path' => $avatar_path
+            'avatar_path' => (new FileService())->storePublicImageFromInput('avatar', 'img/user_avatars/', $request->nickname . '_avatar')
         ]);
 
-        $token = $user->createToken($user->nickname . '_token');
-
+        $token = $user->createToken($user->nickname . '_token', ['user']);
         return response()->json([
             'status' => 200,
-            'user' => $user,
-            'auth_token' => [
+            'user' => new UserResource($user),
+            'authToken' => [
                 'token' => $token->plainTextToken,
                 'abilities' => $token->accessToken->abilities
             ],

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('game_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->integer('points')->nullable();
             $table->boolean('winner');
             $table->timestamps();
         });

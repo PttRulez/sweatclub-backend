@@ -47,7 +47,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Game::class)->withPivot('winner');
     }
 
-    public function wonGames()
+    public function gamesWon()
     {
         return $this->belongsToMany(Game::class)->wherePivot('winner', true);
     }

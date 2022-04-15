@@ -12,11 +12,10 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 
 Route::middleware(['auth:sanctum'])->group(function() {
-   Route::get('users', [UserController::class, 'index']);
-
-   Route::post('logout', [AuthController::class, 'logout']);
+   Route::apiResource('users', UserController::class)->except('destroy');
+   Route::get('users-stats', [UserController::class, 'allUsersWithStats']);
    Route::apiResource('games', GameController::class)->only(['index', 'show']);
-   Route::apiResource('boardgames', BoardgameController::class)->only(['index', 'show']);
+   Route::apiResource('boardgames', BoardgameController::class)->only(['index', 'show', 'update']);
 
    Route::post('logout', [AuthController::class, 'logout']);
 });

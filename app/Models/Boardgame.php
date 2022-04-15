@@ -9,5 +9,10 @@ class Boardgame extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image_path'];
+    protected $fillable = ['name', 'has_points', 'image_path'];
+
+    public function games()
+    {
+        return $this->hasMany(Game::class);
+    }
 }
