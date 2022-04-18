@@ -12,7 +12,10 @@ class StatService
     {
         return User::with('games.boardgame')->get()->map(function($user) {
             return $this->getStatsFromUserWithGames($user);
-        })->sortByDesc('overall.gamesWon')->values();
+        })->sortBy([
+            ['overall.gamesWon', 'desc'],
+            ['overall.winrate', 'desc'],
+        ])->values();
     }
 
     public function userStats($id)
