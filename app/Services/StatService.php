@@ -15,7 +15,7 @@ class StatService
         })->sortBy([
             ['overall.gamesWon', 'desc'],
             ['overall.winrate', 'desc'],
-            ['overall.gamesPlayed', 'asc'],
+            ['overall.gamesPlayed', 'desc'],
         ])->values();
     }
 

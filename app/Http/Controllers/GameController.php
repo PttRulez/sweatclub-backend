@@ -17,7 +17,7 @@ class GameController extends Controller
 {
     public function index()
     {
-        return GameResource::collection(Game::orderByDesc('date_played')->get());
+        return GameResource::collection(Game::orderBy('date_played', 'desc')->orderBy('id', 'desc')->get());
     }
 
     public function show($id)
