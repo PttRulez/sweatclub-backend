@@ -60,7 +60,7 @@ class BoardgameController extends Controller
         $boardgame = Boardgame::findOrFail($id);
         return [
             'boardgame' => new BoardGameResource($boardgame),
-            'games' => GameResource::collection($boardgame->games()->with('players')->get()),
+            'games' => GameResource::collection($boardgame->games()->orderBy('date_played', 'desc')->with('players')->get()),
         ];
     }
 
