@@ -15,7 +15,10 @@ class StatService
         })->sortBy([
             ['overall.gamesWon', 'desc'],
             ['overall.winrate', 'desc'],
-        ])->values();
+        ])->map(function($item) {
+            $item['user']->place = 1;
+            return $item;
+        })->values();
     }
 
     public function userStats($id)
