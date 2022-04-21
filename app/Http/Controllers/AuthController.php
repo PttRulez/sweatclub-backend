@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'nickname' => 'required|min:3|max:191',
+            'nickname' => 'required|max:191',
             'password' => 'required'
         ]);
 
