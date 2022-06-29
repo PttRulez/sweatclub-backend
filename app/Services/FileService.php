@@ -25,15 +25,15 @@ class FileService
     public function updatePublicImageFromInput($inputName, $path, $fileName, Model $model, $modelPathField,)
     {
         if (request()->hasFile($inputName)) {
+            Log::info('1 - ' . __METHOD__ . ' ; ' . $model[$modelPathField] . ' ; ' . $model);
             $image = request()->file($inputName);
             $fileName = $fileName . '.' . $image->extension();
             if ($model[$modelPathField] && File::exists(public_path() . $model[$modelPathField])) {
                 File::delete(public_path() . $model[$modelPathField]);
-
             }
             $image->move($path, $fileName);
-            $model[$modelPathField] = '/' . $path . $fileName;
-            Log::info(__METHOD__ . ' ; ' . $model[$modelPathField]);
+            $model[$modelPathField] = "/" . $path . $fileName;
+            Log::info('2 - ' . __METHOD__ . ' ; ' . $model[$modelPathField] . ' ; ' . $model);
         }
     }
 }

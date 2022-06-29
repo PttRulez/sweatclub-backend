@@ -17,7 +17,12 @@ class GameController extends Controller
 {
     public function index()
     {
-        return GameResource::collection(Game::orderBy('date_played', 'desc')->orderBy('id', 'desc')->get());
+        $req = Game::orderBy('date_played', 'desc')->orderBy('id', 'desc');
+
+        if(is_numeric(request('club_id'))) {
+            $req = $req->where('club_id', request('club_id'));
+        }
+        return GameResource::collection($req->get());
     }
 
     public function show($id)
@@ -36,12 +41,14 @@ class GameController extends Controller
             'boardgame_id' => 'required|integer|exists:boardgames,id',
             'players' => 'required',
             'photo' => 'nullable',
-            'date_played' => 'required'
+            'date_played' => 'required',
+            'club_id' => 'required|integer'
         ]);
 
         $game = Game::create([
             'boardgame_id' => $request->input('boardgame_id'),
-            'date_played' => Carbon::parse($request->input('date_played'))
+            'date_played' => Carbon::parse($request->input('date_played')),
+            'club_id' => $request->input('club_id'),
         ]);
 
         $players = json_decode($request->players);
@@ -61,13 +68,14 @@ class GameController extends Controller
     {
         request()->validate([
             'boardgame_id' => 'required|integer|exists:boardgames,id',
-            'players' => 'required'
+            'players' => 'required',
+            'photo' => 'nullable',
+            'club_id' => 'required|integer'
         ]);
 
         $game = Game::find($id);
 
         if (request()->hasFile('photo')) {
-            Log::info('s');
             (new FileService())->updatePublicImageFromInput('photo', 'img/games/', $game->id . '_game', $game, 'photo_path');
         }
 
