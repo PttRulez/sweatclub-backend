@@ -21,7 +21,7 @@ class GameResource extends JsonResource
                 return [
                     'id' => $player->id,
                     'nickname' => $player->nickname,
-                    'avatarUrl' => config('app.url') . $player->avatar_path,
+                    'avatarUrl' => userAvatarUrl($player),
                     'winner' => $player->pivot->winner,
                     'points' => $player->pivot->points,
                 ];

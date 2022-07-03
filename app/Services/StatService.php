@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class StatService
 {
-
     public function allUsersWithStats()
     {
         if (request()->has('club_id')) {
@@ -28,6 +27,7 @@ class StatService
             ['overall.winrate', 'desc'],
         ])->map(function ($item) {
             $item['user']->place = 1;
+            $item['overall']['winrate'] .= '%';
             return $item;
         })->values();
     }
@@ -64,7 +64,7 @@ class StatService
             'overall' => [
                 'gamesPlayed' => $games->count(),
                 'gamesWon' => $gamesWon->count(),
-                'winrate' => $games->count() > 0 ? floor($gamesWon->count() / $games->count() * 100) . '%' : '0%',
+                'winrate' => $games->count() > 0 ? round($gamesWon->count() / $games->count() * 100) : 0,
             ],
             'byBoardGames' => $byGames->toArray(),
         ];
