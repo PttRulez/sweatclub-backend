@@ -28,6 +28,7 @@ class GameResource extends JsonResource
             })->toArray(),
             'photoUrl' => gamePhotoUrl($this),
             'date_played' => $this->date_played->format('d-m-Y'),
+            'club_id' => $this->club_id
         ];
     }
 }
