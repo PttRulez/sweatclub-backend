@@ -11,21 +11,24 @@ use App\Http\Controllers\ClubController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::get('check-auth', [AuthController::class, 'checkAuth']);
 
+Route::apiResource('users', UserController::class)->except(['update']);
+Route::apiResource('clubs', ClubController::class)->only('index');
+Route::get('users-stats', [UserController::class, 'allUsersWithStats']);
+Route::apiResource('games', GameController::class)->only(['index', 'show']);
+Route::apiResource('boardgames', BoardgameController::class)->only(['index', 'show']);
+Route::apiResource('candy-crush', CandyCrushController::class)->only(['index', 'show', 'store']);
 
-Route::middleware(['auth:sanctum'])->group(function() {
-   Route::apiResource('users', UserController::class)->except('destroy');
-   Route::apiResource('clubs', ClubController::class);
-   Route::get('users-stats', [UserController::class, 'allUsersWithStats']);
-   Route::apiResource('games', GameController::class)->only(['index', 'show']);
-   Route::apiResource('boardgames', BoardgameController::class)->only(['index', 'show', 'update']);
-   Route::apiResource('candy-crush', CandyCrushController::class)->only(['index', 'show', 'store']);
-   Route::post('logout', [AuthController::class, 'logout']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
-Route::middleware(['auth:sanctum', 'abilities:admin'])->group(function() {
+Route::middleware(['auth:sanctum', 'abilities:admin'])->group(function () {
     Route::apiResource('boardgames', BoardgameController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('games', GameController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('clubs', ClubController::class)->only(['store', 'update'. 'destroy']);
+    Route::apiResource('users', UserController::class)->only(['update']);
 });
 
 

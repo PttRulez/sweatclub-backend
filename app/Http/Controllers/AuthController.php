@@ -79,4 +79,13 @@ class AuthController extends Controller
         ]);
 
     }
+
+    public function checkAuth()
+    {
+        if (request()->user('sanctum')) {
+            return "auth";
+        } else {
+            return "guest";
+        }
+    }
 }
