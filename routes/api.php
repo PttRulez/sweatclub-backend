@@ -20,7 +20,7 @@ Route::apiResource('games', GameController::class)->only(['index', 'show']);
 Route::apiResource('boardgames', BoardgameController::class)->only(['index', 'show']);
 Route::apiResource('candy-crush', CandyCrushController::class)->only(['index', 'show', 'store']);
 
-Route::middleware(['auth:sanctum', 'cors'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('users', UserController::class)->only(['update']);
 });
