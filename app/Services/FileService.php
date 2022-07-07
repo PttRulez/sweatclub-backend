@@ -24,7 +24,7 @@ class FileService
     {
         if (request()->hasFile($inputName)) {
             $image = request()->file($inputName);
-            $this->makeSmall($model, $image, $fileName, $path, $image->extension());
+//            $this->makeSmall($model, $image, $fileName, $path, $image->extension());
             $fileName = $fileName . '.' . $image->extension();
             if ($model[$modelPathField] && File::exists(public_path() . $model[$modelPathField])) {
                 File::delete(public_path() . $model[$modelPathField]);
