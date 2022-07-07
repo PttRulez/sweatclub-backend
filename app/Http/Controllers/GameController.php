@@ -57,8 +57,7 @@ class GameController extends Controller
         }
 
         if ($request->hasFile('photo')) {
-            $photo_path = (new FileService())->storePublicImageFromInput('photo', 'img/games/', $game->id . '_game');
-            $game->photo_path = $photo_path;
+            (new FileService())->storePublicImageFromInput('photo', 'img/games/', $game->id . '_game', $game, 'photo_path');
             $game->save();
         }
 

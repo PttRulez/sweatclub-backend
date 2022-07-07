@@ -9,7 +9,7 @@ class Boardgame extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'has_points', 'image_path'];
+    protected $fillable = ['name', 'has_points', 'image_path', 'thumbnail'];
 
     public function games()
     {

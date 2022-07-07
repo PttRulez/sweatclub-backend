@@ -17,6 +17,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'nickname' => $this->nickname,
+            'avatarPicture' => config('app.url') . $this->avatar_path,
             'avatarUrl' => userAvatarUrl($this),
         ];
     }

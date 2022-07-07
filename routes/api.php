@@ -22,13 +22,13 @@ Route::apiResource('candy-crush', CandyCrushController::class)->only(['index', '
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::apiResource('users', UserController::class)->only(['update']);
 });
 
 Route::middleware(['auth:sanctum', 'abilities:admin'])->group(function () {
     Route::apiResource('boardgames', BoardgameController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('games', GameController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('clubs', ClubController::class)->only(['store', 'update'. 'destroy']);
-    Route::apiResource('users', UserController::class)->only(['update']);
 });
 
 

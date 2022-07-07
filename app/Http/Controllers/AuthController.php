@@ -64,8 +64,12 @@ class AuthController extends Controller
         $user = User::create([
             'nickname' => $request->nickname,
             'password' => Hash::make($request->password),
-            'avatar_path' => (new FileService())->storePublicImageFromInput('avatar', 'img/user_avatars/', $request->nickname . '_avatar')
+            'avatar_path' => '',
+            'thumbnail' => ''
         ]);
+
+        (new FileService())->storePublicImageFromInput('avatar', 'img/user_avatars/', $request->nickname . '_avatar', $user, 'avatar_path');
+        $user->save();
 
         $token = $user->createToken($user->nickname . '_token', ['user']);
         return response()->json([

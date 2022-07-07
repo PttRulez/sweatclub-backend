@@ -10,7 +10,7 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['boardgame_id', 'photo_path', 'date_played', 'club_id'];
+    protected $fillable = ['boardgame_id', 'photo_path', 'date_played', 'club_id', 'thumbnail'];
     protected $dates = ['date_played'];
 
     public function players()

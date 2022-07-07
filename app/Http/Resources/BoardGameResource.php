@@ -19,7 +19,8 @@ class BoardGameResource extends JsonResource
                 'id' => $this->id,
                 'name' => $this->name,
                 'has_points' => $this->has_points,
-                'imageUrl' => config('app.url') . $this->image_path
+                'imageUrl' => config('app.url') . $this->image_path,
+                'thumbnailUrl' =>  config('app.url') . $this->thumbnail,
             ]);
     }
 }

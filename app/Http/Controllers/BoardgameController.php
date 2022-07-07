@@ -31,7 +31,7 @@ class BoardgameController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required',
+                'name' => 'required|unique:boardgames',
                 'has_points' => 'nullable',
                 'image' => 'required',
             ],
@@ -44,8 +44,12 @@ class BoardgameController extends Controller
         $boardgame = Boardgame::create([
             'name' => $request->name,
             'has_points' => json_decode($request->has_points),
-            'image_path' => (new FileService())->storePublicImageFromInput('image', 'img/boardgames/', $request->name . '_image')
+            'image_path' => '',
+            'thumbnail' => '',
         ]);
+
+        (new FileService())->storePublicImageFromInput('image', 'img/boardgames/', $request->name . '_image', $boardgame, 'image_path');
+        $boardgame->save();
 
         return $boardgame;
     }
@@ -76,7 +80,7 @@ class BoardgameController extends Controller
         $boardgame = Boardgame::find($id);
 
         request()->validate([
-            'name' => 'required',
+            'name' => 'required|unique:boardgames,name,' . $id,
             'has_points' => 'nullable',
             'image' => 'nullable',
         ]);

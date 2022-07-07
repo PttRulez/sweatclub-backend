@@ -1,7 +1,7 @@
 <?php
 
 function userAvatarUrl($user) {
-    return $user->avatar_path ? config('app.url') . $user->avatar_path : null;
+    return $user->thumbnail ? config('app.url') . $user->thumbnail : null;
 }
 
 function gamePhotoUrl($game) {
