@@ -36,6 +36,8 @@ class FileService
 
     private function makeSmall($model, $image, $fileName, $path, $extension)
     {
+        ini_set('memory_limit','512M');
+
         $thumbnail = Image::make($image->getRealPath());
 
         if ($model instanceof \App\Models\Boardgame) {
