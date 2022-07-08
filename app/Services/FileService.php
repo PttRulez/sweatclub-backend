@@ -42,11 +42,21 @@ class FileService
         $thumbnail = Image::make($image->getRealPath());
 
         if ($model instanceof \App\Models\Boardgame) {
-            $thumbnail->resize(128, 128);
+            $canvas = Image::canvas(128, 128);
+            $thumbnail->resize(128, 128, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $canvas->insert($thumbnail, 'center');
+            $thumbnail = $canvas;
         }
 
         if ($model instanceof \App\Models\User) {
-            $thumbnail->resize(70, 70);
+            $canvas = Image::canvas(70, 70);
+            $thumbnail->resize(70, 70, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $canvas->insert($thumbnail, 'center');
+            $thumbnail = $canvas;
         }
 
         if ($model instanceof \App\Models\Game) {
