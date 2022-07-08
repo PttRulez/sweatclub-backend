@@ -12,6 +12,7 @@ use App\Http\Controllers\ClubController;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::get('check-auth', [AuthController::class, 'checkAuth']);
+Route::get('php-info', [UserController::class, 'php_info']);
 
 Route::apiResource('users', UserController::class)->except(['update']);
 Route::apiResource('clubs', ClubController::class)->only('index');

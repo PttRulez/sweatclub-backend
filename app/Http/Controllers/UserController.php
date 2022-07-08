@@ -39,4 +39,9 @@ class UserController extends Controller
         $user->save();
         return new UserResource($user);
     }
+
+    public function php_info()
+    {
+        echo phpinfo();
+    }
 }
