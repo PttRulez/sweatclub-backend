@@ -51,12 +51,7 @@ class FileService
         }
 
         if ($model instanceof \App\Models\User) {
-            $canvas = Image::canvas(70, 70);
-            $thumbnail->resize(70, 70, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $canvas->insert($thumbnail, 'center');
-            $thumbnail = $canvas;
+            $thumbnail->resize(70, 70);
         }
 
         if ($model instanceof \App\Models\Game) {
