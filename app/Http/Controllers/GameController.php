@@ -42,7 +42,7 @@ class GameController extends Controller
             'players' => 'required',
             'photo' => 'nullable',
             'date_played' => 'required',
-            'club_id' => 'required|integer'
+            'club_id' => 'required|integer',
         ]);
 
         $game = Game::create([
@@ -53,6 +53,9 @@ class GameController extends Controller
 
         $players = json_decode($request->players);
         foreach ($players as $player) {
+            if ($player->points === '') {
+                $player->points = null;
+            }
             $game->players()->save(User::find($player->id), ['winner' => $player->winner, 'points' => $player->points]);
         }
 
